@@ -1,0 +1,132 @@
+import {
+  ModelEvaluationMetrics,
+  ScatterResidualPoint,
+  ModelAblationComparison,
+  FeatureImportanceItem,
+  TrainingLossEpoch,
+} from "@/types/model";
+
+export const mockModelMetrics: ModelEvaluationMetrics = {
+  maeWhKm: 6.8,
+  rmseWhKm: 9.4,
+  mapePercent: 4.7,
+  r2Score: 0.93,
+  ci95WhKm: 8.0,
+  sampleCount: 1200,
+  crossValidationFolds: 5,
+  kernelLatencyMs: 18,
+  lastCalibrated: "2026-05-14T14:31:48Z",
+};
+
+export const mockAblationComparisons: ModelAblationComparison[] = [
+  {
+    id: "pinn-hybrid",
+    architecture: "PINN-GBR Hybrid (Physics-Informed + Gradient Boosted Residuals)",
+    type: "Physics-Informed Hybrid (PINN)",
+    maeWhKm: 6.8,
+    rmseWhKm: 9.4,
+    mapePercent: 4.7,
+    r2Score: 0.93,
+    inferenceLatencyMs: 18,
+    extrapolationStability: "High",
+    status: "active",
+  },
+  {
+    id: "lstm-deep",
+    architecture: "Deep LSTM Autoencoder (Data-driven without conservation laws)",
+    type: "Pure Deep ML (LSTM)",
+    maeWhKm: 11.2,
+    rmseWhKm: 16.5,
+    mapePercent: 8.1,
+    r2Score: 0.81,
+    inferenceLatencyMs: 42,
+    extrapolationStability: "Low",
+    status: "benchmark",
+  },
+  {
+    id: "physics-first-principles",
+    architecture: "First-Principles Kinematic & Longitudinal Dynamics (EPA baseline)",
+    type: "Physics Baseline",
+    maeWhKm: 14.8,
+    rmseWhKm: 19.2,
+    mapePercent: 10.4,
+    r2Score: 0.74,
+    inferenceLatencyMs: 4,
+    extrapolationStability: "Moderate",
+    status: "benchmark",
+  },
+];
+
+export const mockScatterPoints: ScatterResidualPoint[] = [
+  { id: "p1", actualWhKm: 132, predictedWhKm: 134, residual: -2, speedKmh: 45, gradePercent: -0.5, category: "optimal" },
+  { id: "p2", actualWhKm: 138, predictedWhKm: 136, residual: 2, speedKmh: 50, gradePercent: 0.2, category: "optimal" },
+  { id: "p3", actualWhKm: 142, predictedWhKm: 145, residual: -3, speedKmh: 55, gradePercent: 0.8, category: "optimal" },
+  { id: "p4", actualWhKm: 148, predictedWhKm: 149, residual: -1, speedKmh: 60, gradePercent: 1.1, category: "optimal" },
+  { id: "p5", actualWhKm: 151, predictedWhKm: 152, residual: -1, speedKmh: 57, gradePercent: 2.4, category: "optimal" },
+  { id: "p6", actualWhKm: 156, predictedWhKm: 154, residual: 2, speedKmh: 65, gradePercent: 1.8, category: "optimal" },
+  { id: "p7", actualWhKm: 162, predictedWhKm: 159, residual: 3, speedKmh: 75, gradePercent: 2.0, category: "optimal" },
+  { id: "p8", actualWhKm: 168, predictedWhKm: 171, residual: -3, speedKmh: 85, gradePercent: 1.6, category: "optimal" },
+  { id: "p9", actualWhKm: 175, predictedWhKm: 173, residual: 2, speedKmh: 95, gradePercent: 2.2, category: "high_drag" },
+  { id: "p10", actualWhKm: 182, predictedWhKm: 186, residual: -4, speedKmh: 105, gradePercent: 2.5, category: "high_drag" },
+  { id: "p11", actualWhKm: 191, predictedWhKm: 188, residual: 3, speedKmh: 115, gradePercent: 1.5, category: "high_drag" },
+  { id: "p12", actualWhKm: 204, predictedWhKm: 201, residual: 3, speedKmh: 125, gradePercent: 3.1, category: "high_drag" },
+  { id: "p13", actualWhKm: 218, predictedWhKm: 222, residual: -4, speedKmh: 130, gradePercent: 3.8, category: "high_drag" },
+  { id: "p14", actualWhKm: 235, predictedWhKm: 231, residual: 4, speedKmh: 135, gradePercent: 4.2, category: "high_drag" },
+  { id: "p15", actualWhKm: 248, predictedWhKm: 252, residual: -4, speedKmh: 140, gradePercent: 4.5, category: "high_drag" },
+  { id: "p16", actualWhKm: 115, predictedWhKm: 118, residual: -3, speedKmh: 35, gradePercent: -1.2, category: "regen" },
+  { id: "p17", actualWhKm: 98, predictedWhKm: 94, residual: 4, speedKmh: 42, gradePercent: -2.5, category: "regen" },
+  { id: "p18", actualWhKm: 76, predictedWhKm: 79, residual: -3, speedKmh: 50, gradePercent: -3.8, category: "regen" },
+  { id: "p19", actualWhKm: 154, predictedWhKm: 153, residual: 1, speedKmh: 58, gradePercent: 2.2, category: "optimal" },
+  { id: "p20", actualWhKm: 160, predictedWhKm: 163, residual: -3, speedKmh: 70, gradePercent: 1.9, category: "optimal" },
+  { id: "p21", actualWhKm: 172, predictedWhKm: 170, residual: 2, speedKmh: 82, gradePercent: 2.1, category: "optimal" },
+  { id: "p22", actualWhKm: 188, predictedWhKm: 185, residual: 3, speedKmh: 110, gradePercent: 1.8, category: "high_drag" },
+  { id: "p23", actualWhKm: 128, predictedWhKm: 131, residual: -3, speedKmh: 40, gradePercent: 0.1, category: "optimal" },
+  { id: "p24", actualWhKm: 226, predictedWhKm: 224, residual: 2, speedKmh: 128, gradePercent: 3.5, category: "high_drag" },
+];
+
+export const mockFeatureImportances: FeatureImportanceItem[] = [
+  {
+    name: "Aerodynamic Drag Force (CdA · v²)",
+    category: "Aerodynamics",
+    importanceScore: 88,
+    shapValueMean: 0.38,
+    description: "Dominant drag parameter quadratic to ground velocity; major variance above 80 km/h.",
+  },
+  {
+    name: "Topographic Gradient Work (m · g · sin θ)",
+    category: "Topography",
+    importanceScore: 79,
+    shapValueMean: 0.29,
+    description: "Gravitational potential transformation; significant on alpine inclines and valley descents.",
+  },
+  {
+    name: "Driver Kinematic Throttle Variance",
+    category: "Kinematics",
+    importanceScore: 64,
+    shapValueMean: 0.17,
+    description: "3-axis IMU longitudinal jerk and throttle ramp-rate micro-fluctuations.",
+  },
+  {
+    name: "Ambient & Battery Pack Thermals",
+    category: "Thermals",
+    importanceScore: 48,
+    shapValueMean: 0.09,
+    description: "Electrochemical internal resistance escalation outside optimal 25-35°C window.",
+  },
+  {
+    name: "Auxiliary HVAC & Inverter Losses",
+    category: "Auxiliary",
+    importanceScore: 36,
+    shapValueMean: 0.07,
+    description: "Base thermal management draw and high-voltage DC-DC conversion parasitic power.",
+  },
+];
+
+export const mockTrainingLossEpochs: TrainingLossEpoch[] = [
+  { epoch: 10, totalLoss: 0.084, physicsResidualLoss: 0.048, dataFitLoss: 0.036 },
+  { epoch: 20, totalLoss: 0.052, physicsResidualLoss: 0.029, dataFitLoss: 0.023 },
+  { epoch: 40, totalLoss: 0.031, physicsResidualLoss: 0.016, dataFitLoss: 0.015 },
+  { epoch: 60, totalLoss: 0.022, physicsResidualLoss: 0.010, dataFitLoss: 0.012 },
+  { epoch: 80, totalLoss: 0.016, physicsResidualLoss: 0.007, dataFitLoss: 0.009 },
+  { epoch: 100, totalLoss: 0.012, physicsResidualLoss: 0.005, dataFitLoss: 0.007 },
+];

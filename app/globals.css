@@ -1,0 +1,364 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #08090c;
+    --foreground: #f8fafc;
+    --card: rgba(16, 20, 26, 0.72);
+    --card-elevated: rgba(24, 30, 42, 0.82);
+    --card-inset: rgba(8, 10, 14, 0.75);
+    --border-subtle: rgba(255, 255, 255, 0.065);
+    --border-hover: rgba(255, 255, 255, 0.14);
+    --accent-blue: #38bdf8;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-rose: #f43f5e;
+    color-scheme: dark;
+  }
+
+  html.light {
+    --background: #f1f4f9;
+    --foreground: #090d16;
+    --card: rgba(255, 255, 255, 0.88);
+    --card-elevated: rgba(255, 255, 255, 0.98);
+    --card-inset: rgba(238, 242, 250, 0.92);
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-hover: rgba(0, 0, 0, 0.16);
+    --accent-blue: #0284c7;
+    --accent-emerald: #059669;
+    --accent-amber: #d97706;
+    --accent-rose: #e11d48;
+    color-scheme: light;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  body {
+    overscroll-behavior: none;
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.06) 0%, transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(16, 185, 129, 0.05) 0%, transparent 45%);
+    background-attachment: fixed;
+  }
+
+  html.light body {
+    background-color: #f1f4f9;
+    color: #090d16;
+    background-image: 
+      radial-gradient(circle at 15% 10%, rgba(2, 132, 199, 0.07) 0%, transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(5, 150, 105, 0.06) 0%, transparent 45%);
+  }
+}
+
+/* Glass Surface Styling (Automotive VisionOS Spec - Dark) */
+.glass-panel {
+  background: rgba(16, 20, 26, 0.70);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+}
+
+.glass-panel-elevated {
+  background: rgba(24, 30, 42, 0.80);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-panel-subtle {
+  background: rgba(13, 16, 22, 0.50);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.glass-panel-inset {
+  background: rgba(8, 10, 14, 0.70);
+  border: 1px solid rgba(255, 255, 255, 0.035);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Glass Surface Styling (Studio Precision Spec - Light Mode) */
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 24px -2px rgba(15, 23, 42, 0.06), inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
+}
+
+html.light .glass-panel-elevated {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 14px 36px -4px rgba(15, 23, 42, 0.09), inset 0 1px 0 0 rgba(255, 255, 255, 1);
+}
+
+html.light .glass-panel-subtle {
+  background: rgba(243, 246, 252, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+html.light .glass-panel-inset {
+  background: rgba(235, 240, 248, 0.88);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+/* Structural Shell Elements in Light Mode */
+html.light aside {
+  background-color: rgba(255, 255, 255, 0.94) !important;
+  border-right-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 4px 0 24px rgba(15, 23, 42, 0.05) !important;
+}
+
+html.light header {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05) !important;
+}
+
+/* Sidebar Active & Hover in Light Mode */
+html.light aside a.bg-sky-500\/10 {
+  background-color: rgba(2, 132, 199, 0.09) !important;
+  color: #0284c7 !important;
+  border-color: rgba(2, 132, 199, 0.25) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+html.light aside a:hover:not(.bg-sky-500\/10) {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  color: #090d16 !important;
+}
+
+/* Light Mode Toggle Button Track */
+html.light .html-light-toggle {
+  background-color: rgba(226, 232, 240, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.09) !important;
+}
+
+/* Light Mode Floating Menus, Drawers, Dropdowns & Modals */
+html.light .bg-slate-950\/95,
+html.light .bg-slate-900\/95,
+html.light .bg-slate-900\/90,
+html.light .bg-slate-950 {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.14) !important;
+}
+
+/* Light Mode Automatic Typography Contrast Mapping */
+html.light .text-white {
+  color: #090d16 !important;
+}
+
+html.light .text-slate-100 {
+  color: #090d16 !important;
+}
+
+html.light .text-slate-200 {
+  color: #1e293b !important;
+}
+
+html.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+html.light .text-slate-400 {
+  color: #64748b !important;
+}
+
+html.light .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Tray Surfaces & Containers */
+html.light .bg-black\/30,
+html.light .bg-black\/40,
+html.light .bg-black\/50,
+html.light .bg-black\/60 {
+  background-color: rgba(238, 242, 248, 0.88) !important;
+  border-color: rgba(0, 0, 0, 0.07) !important;
+}
+
+html.light .bg-white\/\[0\.015\],
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/\[0\.05\],
+html.light .bg-white\/\[0\.06\],
+html.light .bg-white\/\[0\.08\] {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.07) !important;
+}
+
+html.light .hover\:bg-white\/\[0\.02\]:hover,
+html.light .hover\:bg-white\/\[0\.03\]:hover,
+html.light .hover\:bg-white\/\[0\.035\]:hover,
+html.light .hover\:bg-white\/\[0\.04\]:hover,
+html.light .hover\:bg-white\/\[0\.05\]:hover,
+html.light .hover\:bg-white\/\[0\.06\]:hover,
+html.light .hover\:bg-white\/\[0\.08\]:hover {
+  background-color: rgba(0, 0, 0, 0.07) !important;
+}
+
+html.light .border-white\/\[0\.03\],
+html.light .border-white\/\[0\.04\],
+html.light .border-white\/\[0\.05\],
+html.light .border-white\/\[0\.06\],
+html.light .border-white\/\[0\.07\],
+html.light .border-white\/\[0\.08\],
+html.light .border-white\/\[0\.1\],
+html.light .border-white\/\[0\.12\] {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .divide-white\/\[0\.04\] > :not([hidden]) ~ :not([hidden]),
+html.light .divide-white\/\[0\.06\] > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(0, 0, 0, 0.07) !important;
+}
+
+/* Background Replacements for Arbitrary Hex Values */
+html.light .bg-\[\#0a0d14\]\/75,
+html.light .bg-\[\#0a0d14\],
+html.light .bg-\[\#090c12\]\/85,
+html.light .bg-\[\#090c12\],
+html.light .bg-\[\#08090c\]\/80,
+html.light .bg-\[\#08090c\]\/70,
+html.light .bg-\[\#08090c\]\/90,
+html.light .bg-\[\#08090c\],
+html.light .bg-\[\#0d1017\] {
+  background-color: rgba(255, 255, 255, 0.90) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Multistage Residual Cards in RangeIntelligence */
+html.light .bg-emerald-950\/20 {
+  background-color: rgba(5, 150, 105, 0.08) !important;
+  border-color: rgba(5, 150, 105, 0.25) !important;
+}
+
+html.light .bg-sky-950\/25 {
+  background-color: rgba(2, 132, 199, 0.08) !important;
+  border-color: rgba(2, 132, 199, 0.25) !important;
+}
+
+html.light .bg-amber-950\/20 {
+  background-color: rgba(217, 119, 6, 0.08) !important;
+  border-color: rgba(217, 119, 6, 0.25) !important;
+}
+
+/* Light mode high-contrast accents */
+html.light .text-sky-400 {
+  color: #0284c7 !important;
+}
+
+html.light .text-emerald-400 {
+  color: #059669 !important;
+}
+
+html.light .text-amber-400 {
+  color: #d97706 !important;
+}
+
+html.light .text-rose-400 {
+  color: #e11d48 !important;
+}
+
+html.light .text-amber-300 {
+  color: #b45309 !important;
+}
+
+html.light .text-sky-300 {
+  color: #0369a1 !important;
+}
+
+html.light .text-emerald-300 {
+  color: #047857 !important;
+}
+
+/* Light mode inputs & select controls */
+html.light input[type="text"],
+html.light input[type="number"],
+html.light select {
+  color: #090d16 !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+html.light input[type="range"] {
+  accent-color: #0284c7;
+}
+
+/* Light mode SVG chart & radial gauge adjustments */
+html.light line[stroke="rgba(255,255,255,0.04)"],
+html.light line[stroke="rgba(255,255,255,0.05)"],
+html.light line[stroke="rgba(255,255,255,0.06)"] {
+  stroke: rgba(0, 0, 0, 0.07) !important;
+}
+
+html.light text.fill-slate-500 {
+  fill: #64748b !important;
+}
+
+html.light circle[fill="#08090c"] {
+  fill: #ffffff !important;
+}
+
+html.light svg circle.text-white\/\[0\.05\],
+html.light .text-white\/\[0\.05\] {
+  color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light svg circle.text-amber-500\/25 {
+  color: rgba(217, 119, 6, 0.22) !important;
+}
+
+/* Custom Minimalist Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Tabular Numbers */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

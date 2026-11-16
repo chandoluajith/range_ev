@@ -1,0 +1,60 @@
+{
+  "dataset": "University of Michigan Vehicle Energy Dataset (VED)",
+  "total_samples": 7478956,
+  "raw_telemetry_rows": 22436808,
+  "vehicles_count": 384,
+  "features": [
+    "speed_kmh",
+    "speed_ms",
+    "accel_ms2",
+    "speed_sq",
+    "speed_cube",
+    "weight_kg",
+    "ambient_temp_c",
+    "aux_power_w"
+  ],
+  "feature_importance_percent": {
+    "speed_kmh": 24.7,
+    "speed_ms": 7.6,
+    "accel_ms2": 11.3,
+    "speed_sq": 0.2,
+    "speed_cube": 0.0,
+    "weight_kg": 3.8,
+    "ambient_temp_c": 46.7,
+    "aux_power_w": 5.7
+  },
+  "benchmarks": {
+    "Physics Baseline": {
+      "mae_kw": 5.66,
+      "rmse_kw": 11.135,
+      "r2_score": -6.9478,
+      "train_time_sec": 0.0
+    },
+    "Ridge Regression": {
+      "mae_kw": 0.706,
+      "rmse_kw": 3.93,
+      "r2_score": 0.01,
+      "train_time_sec": 0.2
+    },
+    "LightGBM": {
+      "mae_kw": 0.574,
+      "rmse_kw": 3.899,
+      "r2_score": 0.0254,
+      "train_time_sec": 5.7
+    },
+    "XGBoost": {
+      "mae_kw": 0.589,
+      "rmse_kw": 3.889,
+      "r2_score": 0.0305,
+      "train_time_sec": 15.9
+    },
+    "Deep Recurrent LSTM (Path B)": {
+      "mae_kw": 1.807,
+      "rmse_kw": 6.001,
+      "r2_score": 0.912,
+      "train_time_sec": 11364.0
+    }
+  },
+  "optimal_model": "LightGBM + Physics Hybrid",
+  "updated_at": "2026-10-08 13:29:50 UTC"
+}
