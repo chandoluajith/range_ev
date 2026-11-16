@@ -136,6 +136,7 @@
             <option value="etron-gt-rs">Audi RS e-tron GT (800V · 93.4 kWh)</option>
             <option value="ioniq-5">Hyundai Ioniq 5 (800V · 77.4 kWh)</option>
           </select>
+          <span id="specCdBadge" class="text-[10px] font-mono-tech px-2 py-0.5 rounded bg-sky-500/15 border border-sky-400/30 text-sky-300 hidden sm:inline" title="Fixed Factory Aerodynamic Spec">Spec: Cd 0.220</span>
         </div>
 
         <!-- Camera Perspective Selector (Including Cockpit POV!) -->
@@ -422,14 +423,17 @@
               <input id="inputSpeed" type="range" min="0" max="240" step="1" value="57" class="ev-slider" />
             </div>
 
-            <!-- Input 2: accel_ms2 -->
+            <!-- Input 2: accel_ms2 & regen_flag -->
             <div class="p-2 rounded-xl bg-slate-900/70 border border-slate-800">
               <div class="flex justify-between items-center text-xs mb-1">
                 <label for="inputAccel" class="font-medium text-slate-200 flex items-center gap-1.5">
                   <span class="text-[9px] font-mono-tech px-1 rounded bg-orange-500/20 text-orange-300">02</span>
                   <span>Acceleration / Regen (<code class="text-[10px] text-orange-300 font-mono-tech">accel_ms2</code>)</span>
                 </label>
-                <span id="valAccel" class="font-mono-tech font-bold text-emerald-300">0.0 m/s²</span>
+                <div class="flex items-center gap-2">
+                  <span id="badgeRegenFlag" class="text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-400" title="1 when negative current flows into battery">REGEN: 0</span>
+                  <span id="valAccel" class="font-mono-tech font-bold text-emerald-300">0.0 m/s²</span>
+                </div>
               </div>
               <input id="inputAccel" type="range" min="-6.0" max="6.0" step="0.1" value="0.0" class="ev-slider regen-slider" />
               <div class="flex justify-between text-[9px] font-mono-tech text-slate-400 mt-0.5">
@@ -492,16 +496,16 @@
               <input id="inputMass" type="range" min="1850" max="2750" step="10" value="2385" class="ev-slider" />
             </div>
 
-            <!-- Input 7: drag_cd -->
+            <!-- Input 7: soc_percent (High Voltage Battery SOC %) -->
             <div class="p-2 rounded-xl bg-slate-900/70 border border-slate-800">
               <div class="flex justify-between items-center text-xs mb-1">
-                <label for="inputCd" class="font-medium text-slate-200 flex items-center gap-1.5">
-                  <span class="text-[9px] font-mono-tech px-1 rounded bg-sky-500/20 text-sky-300">07</span>
-                  <span>Aero Drag Coeff (<code class="text-[10px] text-sky-300 font-mono-tech">drag_cd</code>)</span>
+                <label for="inputSoc" class="font-medium text-slate-200 flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono-tech px-1 rounded bg-emerald-500/20 text-emerald-300">07</span>
+                  <span>Battery State of Charge (<code class="text-[10px] text-emerald-300 font-mono-tech">soc_percent</code>)</span>
                 </label>
-                <span id="valCd" class="font-mono-tech font-bold text-sky-300">0.220 (Taycan Aero)</span>
+                <span id="valSoc" class="font-mono-tech font-bold text-emerald-300">64.2 % (59.7 kWh)</span>
               </div>
-              <input id="inputCd" type="range" min="0.190" max="0.320" step="0.005" value="0.220" class="ev-slider" />
+              <input id="inputSoc" type="range" min="5" max="100" step="0.5" value="64.2" class="ev-slider" />
             </div>
 
             <!-- Input 8: tire_pressure_bar -->
@@ -694,8 +698,10 @@
         valAmbient: document.getElementById('valAmbient'),
         inputHvac: document.getElementById('inputHvac'),
         valHvac: document.getElementById('valHvac'),
-        inputCd: document.getElementById('inputCd'),
-        valCd: document.getElementById('valCd'),
+        inputSoc: document.getElementById('inputSoc'),
+        valSoc: document.getElementById('valSoc'),
+        specCdBadge: document.getElementById('specCdBadge'),
+        badgeRegenFlag: document.getElementById('badgeRegenFlag'),
         inputMass: document.getElementById('inputMass'),
         valMass: document.getElementById('valMass'),
         inputTire: document.getElementById('inputTire'),
@@ -1423,8 +1429,25 @@
         dom.inputHvac.value = state.auxPowerKw;
         dom.valHvac.textContent = `${state.auxPowerKw.toFixed(1)} kW (${Math.round(state.auxPowerKw * 1000)} W)`;
 
-        dom.inputCd.value = state.dragCd;
-        dom.valCd.textContent = `${state.dragCd.toFixed(3)} (CdA ${(state.dragCd * VEHICLES[state.activeVehicleId].frontalAreaM2).toFixed(2)} m²)`;
+        // Update SOC slider & usable energy readout
+        const vCap = VEHICLES[state.activeVehicleId].usableCapacityKWh;
+        const curUsableKwh = ((state.socPct / 100) * vCap).toFixed(1);
+        dom.inputSoc.value = state.socPct.toFixed(1);
+        dom.valSoc.textContent = `${state.socPct.toFixed(1)} % (${curUsableKwh} kWh)`;
+
+        // Update Fixed Factory Cd Spec Badge
+        if (dom.specCdBadge) {
+          dom.specCdBadge.textContent = `Spec: Cd ${state.dragCd.toFixed(3)}`;
+        }
+
+        // Update regen_flag badge: 1 during deceleration / negative power, 0 during traction
+        const isRegen = state.accelMs2 < -0.1 && state.speedKmh > 1;
+        if (dom.badgeRegenFlag) {
+          dom.badgeRegenFlag.textContent = isRegen ? 'REGEN_FLAG: 1' : 'REGEN_FLAG: 0';
+          dom.badgeRegenFlag.className = isRegen
+            ? 'text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-orange-500/25 border border-orange-400/50 text-orange-300 font-bold'
+            : 'text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-400 font-medium';
+        }
 
         dom.inputMass.value = state.massKg;
         dom.valMass.textContent = `${state.massKg.toLocaleString()} kg`;
@@ -1695,8 +1718,8 @@
         updateSlidersAndLabels();
       });
 
-      dom.inputCd.addEventListener('input', (e) => {
-        state.dragCd = parseFloat(e.target.value);
+      dom.inputSoc.addEventListener('input', (e) => {
+        state.socPct = parseFloat(e.target.value);
         updateSlidersAndLabels();
       });
 
