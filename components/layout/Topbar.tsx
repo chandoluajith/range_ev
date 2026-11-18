@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import {
   Menu,
-  Settings,
   Navigation,
 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
@@ -70,15 +69,6 @@ export function Topbar({
 
         {/* Dark/Light Theme Switcher Toggle */}
         <ThemeToggle />
-
-        {/* Settings Action Icon */}
-        <Link
-          href="/settings"
-          className="w-8 h-8 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.05] transition-all flex items-center justify-center border border-transparent hover:border-white/[0.08]"
-          title="System Configuration & Simulation Settings"
-        >
-          <Settings className="w-4 h-4" />
-        </Link>
 
         {/* User avatar */}
         <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-sky-500 to-sky-300 text-slate-950 font-semibold text-[11px] flex items-center justify-center shadow-[0_0_12px_rgba(56,189,248,0.3)]">

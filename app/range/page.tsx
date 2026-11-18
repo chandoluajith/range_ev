@@ -29,9 +29,15 @@ export default function PredictiveRangePage() {
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight font-sans">
-            Dynamic Range Intelligence
-          </h1>
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight font-sans">
+              Dynamic Range Intelligence
+            </h1>
+            <span className="text-[11px] font-mono font-bold text-sky-300 bg-sky-500/15 border border-sky-400/40 px-3 py-1 rounded-full shadow-[0_0_12px_rgba(56,189,248,0.25)] flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+              PRIMARY RANGE ESTIMATION ENGINE
+            </span>
+          </div>
           <p className="text-[13px] text-slate-400 font-sans mt-0.5">
             Physics-informed personalized range estimation with active confidence intervals
           </p>
@@ -178,10 +184,13 @@ export default function PredictiveRangePage() {
               Comparing EPA catalog nominal baseline, first-principles physics, and PINN personalized estimation across trip progress
             </p>
           </div>
-          <div className="flex items-center gap-3 text-[11px] font-mono">
+          <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono">
             <span className="text-slate-400">--- Physics Baseline</span>
             <span className="text-emerald-400">● ML Adjusted</span>
-            <span className="text-sky-400">● Personalized Estimate</span>
+            <span className="text-sky-300 font-semibold px-2.5 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 shadow-[0_0_10px_rgba(56,189,248,0.3)] flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+              ★ Range Estimation (Personalized)
+            </span>
           </div>
         </div>
 
@@ -194,7 +203,14 @@ export default function PredictiveRangePage() {
           series={[
             { id: "physics", name: "Physics", color: "#94a3b8", dashed: true, data: physicsTimeline },
             { id: "ml", name: "ML Adjusted", color: "#10b981", data: mlTimeline },
-            { id: "personalized", name: "Personalized", color: "#38bdf8", data: personalizedTimeline },
+            {
+              id: "personalized",
+              name: "Range Estimation",
+              color: "#38bdf8",
+              data: personalizedTimeline,
+              highlight: true,
+              strokeWidth: 3.5,
+            },
           ]}
         />
       </div>

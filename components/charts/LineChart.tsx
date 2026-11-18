@@ -9,6 +9,8 @@ export interface LineSeries {
   color: string;
   dashed?: boolean;
   data: number[];
+  highlight?: boolean;
+  strokeWidth?: number;
 }
 
 export interface LineChartProps {
@@ -97,12 +99,30 @@ export function LineChart({
               d={d}
               fill="none"
               stroke={s.color}
-              strokeWidth="2"
+              strokeWidth={s.strokeWidth ?? (s.highlight ? 3.5 : 2)}
               strokeDasharray={s.dashed ? "4 4" : "0"}
               strokeLinecap="round"
               strokeLinejoin="round"
+              style={s.highlight ? { filter: `drop-shadow(0 0 8px ${s.color}cc)` } : undefined}
             />
           );
+        })}
+
+        {/* Highlighted series data points */}
+        {series.map((s) => {
+          if (!s.highlight) return null;
+          return s.data.map((val, i) => (
+            <circle
+              key={`${s.id}-dot-${i}`}
+              cx={getX(i)}
+              cy={getY(val)}
+              r="3.5"
+              fill={s.color}
+              stroke="#08090c"
+              strokeWidth="1.5"
+              style={{ filter: `drop-shadow(0 0 6px ${s.color})` }}
+            />
+          ));
         })}
       </svg>
 

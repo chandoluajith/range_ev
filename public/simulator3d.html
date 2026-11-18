@@ -147,16 +147,22 @@
           <button id="camSide" type="button" class="cam-btn px-2.5 py-1 rounded text-xs font-medium text-slate-400 hover:text-white hidden lg:inline-block">Side Profile</button>
         </div>
 
-        <!-- Sound Toggle -->
-        <button id="btnAudioToggle" type="button" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5" title="Toggle EV Inverter & Motor Sound Synthesis">
-          <span id="audioIcon">🔇</span>
-          <span id="audioLabel" class="hidden sm:inline">Sound Off</span>
+        <!-- EV Sound Toggle -->
+        <button id="btnAudioToggle" type="button" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-sky-500/25 hover:bg-sky-500/35 text-sky-200 border border-sky-400/50 flex items-center gap-1.5 transition-all shadow-sm shadow-sky-500/20" title="Toggle EV Motor & Inverter Sound Synthesis (Key M)">
+          <span id="audioIcon">🔊</span>
+          <span id="audioLabel" class="hidden sm:inline font-bold">EV Stealth Sound</span>
         </button>
 
         <!-- Exit / Back to RangeIQ Dashboard -->
-        <a href="/" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-sky-950/80 hover:bg-sky-900 text-sky-300 border border-sky-500/40 flex items-center gap-1 transition-all">
-          <span>📊</span>
-          <span class="hidden sm:inline">Main Dashboard</span>
+        <a href="/range" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-sky-950/80 hover:bg-sky-900 text-sky-300 border border-sky-500/40 flex items-center gap-1 transition-all" title="Return to Range Estimation Dashboard">
+          <span>🧭</span>
+          <span class="hidden sm:inline">Range Estimation</span>
+        </a>
+
+        <!-- Trip History -->
+        <a href="/trips" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1 transition-all" title="View Real-World Trip Telemetry History">
+          <span>📂</span>
+          <span class="hidden sm:inline">Trip History</span>
         </a>
       </div>
     </div>
@@ -189,6 +195,60 @@
             <span class="text-[11px] font-mono-tech text-emerald-400 font-bold bg-slate-900/80 px-2 py-0.5 rounded border border-slate-700">
               ⚡ 800V DC Active
             </span>
+          </div>
+        </div>
+
+        <!-- KEYBOARD DRIVING CONTROLS HUD OVERLAY -->
+        <div id="driveControlsOverlay" class="absolute top-10 left-3 z-20 pointer-events-auto bg-slate-950/90 backdrop-blur-md border border-sky-500/35 rounded-xl p-2 sm:p-2.5 shadow-2xl flex flex-col gap-1.5 transition-all max-w-[280px] sm:max-w-[310px]">
+          <div class="flex items-center justify-between gap-2 pb-1 border-b border-white/[0.08]">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span id="drivingStatusBadge" class="text-[10px] font-mono-tech font-bold text-sky-200 uppercase tracking-wide">
+                WASD / Arrows Ready
+              </span>
+            </div>
+            <button id="btnCenterCar" type="button" class="text-[9px] font-mono-tech text-slate-400 hover:text-sky-300 bg-slate-900/90 px-1.5 py-0.5 rounded border border-slate-700 hover:border-sky-500/50 transition-all cursor-pointer" title="Reset steering and lane position (Key R)">
+              [R] Center
+            </button>
+          </div>
+
+          <!-- Interactive Visual Keypad & Guide -->
+          <div class="flex items-center gap-2.5">
+            <div class="flex flex-col items-center gap-1 shrink-0">
+              <div class="flex gap-1">
+                <div class="w-7 h-7"></div>
+                <button id="keyUpIndicator" type="button" class="key-indicator w-7 h-7 rounded-lg bg-slate-900/90 text-slate-300 font-mono-tech font-bold text-xs flex items-center justify-center border border-slate-700 hover:border-slate-500 transition-all select-none cursor-pointer" title="Drive / Accelerate (W or Up Arrow)">W</button>
+                <div class="w-7 h-7"></div>
+              </div>
+              <div class="flex gap-1">
+                <button id="keyLeftIndicator" type="button" class="key-indicator w-7 h-7 rounded-lg bg-slate-900/90 text-slate-300 font-mono-tech font-bold text-xs flex items-center justify-center border border-slate-700 hover:border-slate-500 transition-all select-none cursor-pointer" title="Steer Left (A or Left Arrow)">A</button>
+                <button id="keyDownIndicator" type="button" class="key-indicator w-7 h-7 rounded-lg bg-slate-900/90 text-slate-300 font-mono-tech font-bold text-xs flex items-center justify-center border border-slate-700 hover:border-slate-500 transition-all select-none cursor-pointer" title="Brake / Regen (S or Down Arrow)">S</button>
+                <button id="keyRightIndicator" type="button" class="key-indicator w-7 h-7 rounded-lg bg-slate-900/90 text-slate-300 font-mono-tech font-bold text-xs flex items-center justify-center border border-slate-700 hover:border-slate-500 transition-all select-none cursor-pointer" title="Steer Right (D or Right Arrow)">D</button>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-0.5 text-[9px] sm:text-[10px] font-mono-tech">
+              <div class="flex items-center gap-1 text-slate-300">
+                <span class="text-sky-400 font-bold">W / ↑:</span>
+                <span>Throttle Accelerate</span>
+              </div>
+              <div class="flex items-center gap-1 text-slate-300">
+                <span class="text-orange-400 font-bold">S / ↓:</span>
+                <span>Brake &amp; Regen Glow</span>
+              </div>
+              <div class="flex items-center gap-1 text-slate-300">
+                <span class="text-emerald-400 font-bold">A / D:</span>
+                <span>Steer Wheels &amp; Lane</span>
+              </div>
+              <div class="flex items-center gap-1 pt-0.5 text-slate-400 text-[9px]">
+                <button id="keySpaceIndicator" type="button" class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono-tech font-medium text-[9px] border border-slate-700 select-none cursor-pointer">Space</button>
+                <span>Brake</span>
+                <span class="text-slate-600">|</span>
+                <span class="px-1 py-0.5 rounded bg-slate-800 text-slate-300 font-mono-tech font-medium text-[9px] border border-slate-700">[C] Cam</span>
+                <span class="text-slate-600">|</span>
+                <span class="px-1 py-0.5 rounded bg-sky-500/20 text-sky-300 font-mono-tech font-bold text-[9px] border border-sky-500/40">[M] Sound</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -294,9 +354,12 @@
                     <span>ML Delta:</span>
                     <span id="hudMlDelta" class="text-amber-400 font-bold">-6 km</span>
                   </div>
-                  <div class="pt-0.5 border-t border-slate-800 flex justify-between items-baseline">
-                    <span class="text-slate-300 font-semibold">Est. Range:</span>
-                    <strong id="hudRange" class="text-xs sm:text-sm font-extrabold text-sky-300">148 km</strong>
+                  <div class="pt-1 mt-0.5 border-t border-sky-500/30 flex justify-between items-baseline bg-sky-500/15 px-1.5 py-0.5 rounded border border-sky-400/30 shadow-[0_0_8px_rgba(56,189,248,0.2)]">
+                    <span class="text-sky-200 font-bold text-[9px] uppercase tracking-wider flex items-center gap-1">
+                      <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+                      Est. Range:
+                    </span>
+                    <strong id="hudRange" class="text-xs sm:text-sm font-extrabold text-sky-300 drop-shadow-[0_0_6px_rgba(56,189,248,0.6)]">148 km</strong>
                   </div>
                 </div>
               </div>
@@ -322,8 +385,8 @@
         </div>
       </div>
 
-      <!-- BOTTOM ROW: 6 REAL-TIME POWERTRAIN DECOMPOSITION METRIC CARDS -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+      <!-- BOTTOM ROW: 5 REAL-TIME POWERTRAIN DECOMPOSITION METRIC CARDS -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
         <div class="glass-card rounded-xl p-2.5">
           <div class="text-[10px] font-mono-tech uppercase text-slate-400">Net Pack Power</div>
           <div id="metricTotalKw" class="text-base sm:text-lg font-bold font-mono-tech text-sky-300 mt-0.5">+18.4 kW</div>
@@ -346,12 +409,6 @@
           <div class="text-[10px] font-mono-tech uppercase text-slate-400">Topography &amp; m·a</div>
           <div id="metricGradeKw" class="text-base sm:text-lg font-bold font-mono-tech text-purple-300 mt-0.5">+5.2 kW</div>
           <div id="metricGradeSub" class="text-[10px] text-slate-400 truncate">+2.4% Alpine Slope</div>
-        </div>
-
-        <div class="glass-card rounded-xl p-2.5">
-          <div class="text-[10px] font-mono-tech uppercase text-slate-400">Ceramic Rotor</div>
-          <div id="metricRotorTemp" class="text-base sm:text-lg font-bold font-mono-tech text-emerald-300 mt-0.5">185 °C</div>
-          <div id="metricRegenState" class="text-[10px] text-slate-400 truncate">Ceramic Nominal</div>
         </div>
 
         <div class="glass-card rounded-xl p-2.5">
@@ -437,7 +494,7 @@
               </div>
               <input id="inputAccel" type="range" min="-6.0" max="6.0" step="0.1" value="0.0" class="ev-slider regen-slider" />
               <div class="flex justify-between text-[9px] font-mono-tech text-slate-400 mt-0.5">
-                <span class="text-orange-400">◀ Decel Regen (Rotor Glow)</span>
+                <span class="text-orange-400">◀ Decel Regen (Energy Harvest)</span>
                 <span>0.0 Coast</span>
                 <span class="text-sky-400">Traction Boost ▶</span>
               </div>
@@ -631,8 +688,10 @@
           left: false,
           right: false,
           up: false,
-          down: false
+          down: false,
+          brake: false
         },
+        hasUserDriven: false,
 
         // 3D Layers
         xrayActive: false,
@@ -649,11 +708,15 @@
         prevMouseX: 0,
         prevMouseY: 0,
 
-        // Audio
-        audioEnabled: false,
+        // Audio: EV Motor & Inverter Sound Synthesis
+        audioEnabled: true,
         audioCtx: null,
+        audioMasterGain: null,
+        compressor: null,
         motorOsc: null,
         motorGain: null,
+        inverterOsc: null,
+        inverterGain: null,
         regenOsc: null,
         regenGain: null
       };
@@ -737,15 +800,22 @@
         metricRollForce: document.getElementById('metricRollForce'),
         metricGradeKw: document.getElementById('metricGradeKw'),
         metricGradeSub: document.getElementById('metricGradeSub'),
-        metricRotorTemp: document.getElementById('metricRotorTemp'),
-        metricRegenState: document.getElementById('metricRegenState'),
         metricWhKm: document.getElementById('metricWhKm'),
         metricHvacLoad: document.getElementById('metricHvacLoad'),
 
-        // Sound Toggle
+        // Sound & EV Audio Toggle
         btnAudioToggle: document.getElementById('btnAudioToggle'),
         audioIcon: document.getElementById('audioIcon'),
-        audioLabel: document.getElementById('audioLabel')
+        audioLabel: document.getElementById('audioLabel'),
+
+        // Interactive Keypad HUD Elements
+        keyUpIndicator: document.getElementById('keyUpIndicator'),
+        keyDownIndicator: document.getElementById('keyDownIndicator'),
+        keyLeftIndicator: document.getElementById('keyLeftIndicator'),
+        keyRightIndicator: document.getElementById('keyRightIndicator'),
+        keySpaceIndicator: document.getElementById('keySpaceIndicator'),
+        btnCenterCar: document.getElementById('btnCenterCar'),
+        drivingStatusBadge: document.getElementById('drivingStatusBadge')
       };
 
       // ==========================================
@@ -1340,47 +1410,142 @@
       }
 
       // ==========================================
-      // 9. WEB AUDIO API SYNTHESIZER
+      // 9. WEB AUDIO API SYNTHESIZER: EV STEALTH MOTOR & INVERTER
       // ==========================================
-      function initOrToggleAudio() {
+      function initAudioSystem() {
+        if (state.audioCtx) return;
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const ctx = new AudioContextClass();
+        state.audioCtx = ctx;
+
+        // Dynamics Compressor
+        const compressor = ctx.createDynamicsCompressor();
+        compressor.threshold.setValueAtTime(-12, ctx.currentTime);
+        compressor.knee.setValueAtTime(6, ctx.currentTime);
+        compressor.ratio.setValueAtTime(4.0, ctx.currentTime);
+        compressor.attack.setValueAtTime(0.005, ctx.currentTime);
+        compressor.release.setValueAtTime(0.12, ctx.currentTime);
+        compressor.connect(ctx.destination);
+        state.compressor = compressor;
+
+        // Master Gain
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(state.audioEnabled ? 0.35 : 0.0, ctx.currentTime);
+        masterGain.connect(compressor);
+        state.audioMasterGain = masterGain;
+
+        // 1. Primary Stator Flux Hum (Sine)
+        const motorOsc = ctx.createOscillator();
+        const motorGain = ctx.createGain();
+        motorOsc.type = 'sine';
+        motorOsc.frequency.setValueAtTime(95, ctx.currentTime);
+        motorGain.gain.setValueAtTime(0.003, ctx.currentTime);
+        motorOsc.connect(motorGain);
+        motorGain.connect(masterGain);
+        motorOsc.start();
+        state.motorOsc = motorOsc;
+        state.motorGain = motorGain;
+
+        // 2. High-Voltage Inverter Carrier Whine (Triangle)
+        const inverterOsc = ctx.createOscillator();
+        const inverterGain = ctx.createGain();
+        inverterOsc.type = 'triangle';
+        inverterOsc.frequency.setValueAtTime(260, ctx.currentTime);
+        inverterGain.gain.setValueAtTime(0.001, ctx.currentTime);
+        inverterOsc.connect(inverterGain);
+        inverterGain.connect(masterGain);
+        inverterOsc.start();
+        state.inverterOsc = inverterOsc;
+        state.inverterGain = inverterGain;
+
+        // 3. Regenerative Braking Harmonic Whistle (Triangle)
+        const regenOsc = ctx.createOscillator();
+        const regenGain = ctx.createGain();
+        regenOsc.type = 'triangle';
+        regenOsc.frequency.setValueAtTime(115, ctx.currentTime);
+        regenGain.gain.setValueAtTime(0.0, ctx.currentTime);
+        regenOsc.connect(regenGain);
+        regenGain.connect(masterGain);
+        regenOsc.start();
+        state.regenOsc = regenOsc;
+        state.regenGain = regenGain;
+      }
+
+      function resumeAudioIfNeeded() {
         if (!state.audioCtx) {
-          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-          if (!AudioContextClass) return;
-          const ctx = new AudioContextClass();
-          state.audioCtx = ctx;
-
-          // Main 800V Motor Inverter Whine
-          const motorOsc = ctx.createOscillator();
-          const motorGain = ctx.createGain();
-          motorOsc.type = 'sine';
-          motorOsc.frequency.value = 140;
-          motorGain.gain.value = 0.0;
-          motorOsc.connect(motorGain);
-          motorGain.connect(ctx.destination);
-          motorOsc.start();
-
-          // Regen Sub-Harmonic Whistle
-          const regenOsc = ctx.createOscillator();
-          const regenGain = ctx.createGain();
-          regenOsc.type = 'triangle';
-          regenOsc.frequency.value = 95;
-          regenGain.gain.value = 0.0;
-          regenOsc.connect(regenGain);
-          regenGain.connect(ctx.destination);
-          regenOsc.start();
-
-          state.motorOsc = motorOsc;
-          state.motorGain = motorGain;
-          state.regenOsc = regenOsc;
-          state.regenGain = regenGain;
+          initAudioSystem();
         }
-
-        state.audioEnabled = !state.audioEnabled;
         if (state.audioCtx && state.audioCtx.state === 'suspended') {
           state.audioCtx.resume();
         }
-        dom.audioIcon.textContent = state.audioEnabled ? '🔊' : '🔇';
-        dom.audioLabel.textContent = state.audioEnabled ? 'Sound On' : 'Sound Off';
+      }
+
+      function toggleAudio() {
+        if (!state.audioCtx) {
+          initAudioSystem();
+        }
+        resumeAudioIfNeeded();
+
+        state.audioEnabled = !state.audioEnabled;
+
+        const now = state.audioCtx ? state.audioCtx.currentTime : 0;
+        if (state.audioMasterGain && state.audioCtx) {
+          state.audioMasterGain.gain.setTargetAtTime(state.audioEnabled ? 0.35 : 0.0, now, 0.06);
+        }
+
+        updateAudioUI();
+      }
+
+      function updateAudioUI() {
+        if (!dom.audioIcon || !dom.audioLabel || !dom.btnAudioToggle) return;
+        if (!state.audioEnabled) {
+          dom.audioIcon.textContent = '🔇';
+          dom.audioLabel.textContent = 'Sound Off';
+          dom.btnAudioToggle.className = 'px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1.5 transition-all cursor-pointer';
+        } else {
+          dom.audioIcon.textContent = '🔊';
+          dom.audioLabel.textContent = 'EV Stealth Sound';
+          dom.btnAudioToggle.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-sky-500/25 hover:bg-sky-500/35 text-sky-200 border border-sky-400/50 flex items-center gap-1.5 transition-all shadow-sm shadow-sky-500/20 cursor-pointer';
+        }
+      }
+
+      function updateAudioEngine(dt) {
+        if (!state.audioEnabled || !state.audioCtx) return;
+        const ctx = state.audioCtx;
+        const now = ctx.currentTime;
+        const isDriving = state.speedKmh > 0.5;
+
+        // 1. Primary Stator Flux Hum (Smooth proportional pitch)
+        if (state.motorOsc && state.motorGain) {
+          const motorFreq = 95 + state.speedKmh * 2.2;
+          state.motorOsc.frequency.setTargetAtTime(motorFreq, now, 0.05);
+          const targetGain = isDriving ? Math.min(0.045, 0.015 + (state.speedKmh / 240) * 0.03) : 0.003;
+          state.motorGain.gain.setTargetAtTime(targetGain, now, 0.08);
+        }
+
+        // 2. High-Voltage Silicon-Carbide Inverter Whine
+        if (state.inverterOsc && state.inverterGain) {
+          const invFreq = 260 + state.speedKmh * 3.4;
+          state.inverterOsc.frequency.setTargetAtTime(invFreq, now, 0.05);
+          const invGain = isDriving ? Math.min(0.025, 0.008 + (state.speedKmh / 240) * 0.02) : 0.001;
+          state.inverterGain.gain.setTargetAtTime(invGain, now, 0.08);
+        }
+
+        // 3. Regenerative Deceleration Whistle
+        if (state.regenOsc && state.regenGain) {
+          const isRegen = state.accelMs2 < -0.15 && state.speedKmh > 3;
+          const regenFreq = 115 + Math.abs(state.accelMs2) * 42;
+          state.regenOsc.frequency.setTargetAtTime(regenFreq, now, 0.05);
+          state.regenGain.gain.setTargetAtTime(isRegen ? Math.min(0.045, Math.abs(state.accelMs2) * 0.012) : 0.0, now, 0.08);
+        }
+
+        // Modulation by cockpit vs chase perspective
+        const isCockpit = state.cameraPreset === 'cockpit';
+        if (state.audioMasterGain) {
+          const masterVol = isCockpit ? 0.38 : 0.32;
+          state.audioMasterGain.gain.setTargetAtTime(state.audioEnabled ? masterVol : 0.0, now, 0.06);
+        }
       }
 
       // ==========================================
@@ -1455,13 +1620,21 @@
         const crr = +(VEHICLES[state.activeVehicleId].rollingResistanceCrr * (2.9 / state.tireBar)).toFixed(4);
         dom.inputTire.value = state.tireBar;
         dom.valTire.textContent = `${state.tireBar.toFixed(1)} bar (Crr ${crr})`;
+        dom.valTire.className = state.tireBar < 2.5
+          ? 'font-mono-tech font-bold text-amber-300'
+          : 'font-mono-tech font-bold text-sky-300';
 
-        // Sync TPMS on Digital Cluster
+        // Sync TPMS on Digital Cluster with low-pressure warning color
         const pStr = `${state.tireBar.toFixed(1)}b`;
-        dom.tpmsFL.textContent = pStr;
-        dom.tpmsFR.textContent = pStr;
-        dom.tpmsRL.textContent = pStr;
-        dom.tpmsRR.textContent = pStr;
+        const tpmsColor = state.tireBar < 2.3
+          ? 'text-red-400 font-bold'
+          : (state.tireBar < 2.6 ? 'text-amber-400 font-bold' : 'text-sky-300');
+        [dom.tpmsFL, dom.tpmsFR, dom.tpmsRL, dom.tpmsRR].forEach((el) => {
+          if (el) {
+            el.textContent = pStr;
+            el.className = tpmsColor;
+          }
+        });
       }
 
       function applyVehicleProfile(vehId) {
@@ -1470,6 +1643,17 @@
         state.massKg = v.curbWeightKg + 75; // Curb + 75 kg driver payload
         state.dragCd = v.dragCoefficientCd;
         state.tireBar = 2.9;
+
+        if (vehId === 'taycan-gts') {
+          obsidianPaintMat.color.setHex(0x090e17);
+        } else if (vehId === 'model-s-plaid') {
+          obsidianPaintMat.color.setHex(0xb91c1c);
+        } else if (vehId === 'etron-gt-rs') {
+          obsidianPaintMat.color.setHex(0x334155);
+        } else if (vehId === 'ioniq-5') {
+          obsidianPaintMat.color.setHex(0x0284c7);
+        }
+
         updateSlidersAndLabels();
       }
 
@@ -1528,7 +1712,14 @@
         const payloadDelta = (state.massKg - veh.curbWeightKg) - 75;
         const weightImpactKm = -(payloadDelta * 0.02);
 
-        const mlResidualDeltaKm = Math.round(tempImpactKm + hvacImpactKm + speedImpactKm + gradeImpactKm + accelImpactKm + weightImpactKm);
+        // Tire Pressure / Rolling Resistance penalty (2.9 bar nominal baseline)
+        // Under-inflation increases contact patch deformation (Crr) -> raises consumption -> reduces range
+        const tireDelta = 2.9 - state.tireBar; // Positive when under-inflated
+        const tireImpactKm = -(tireDelta * 22.0); // ~2.2 km penalty per 0.1 bar under-inflation
+
+        const mlResidualDeltaKm = Math.round(
+          tempImpactKm + hvacImpactKm + speedImpactKm + gradeImpactKm + accelImpactKm + weightImpactKm + tireImpactKm
+        );
         const personalizedRangeKm = Math.max(25, physicsBaseRangeKm + mlResidualDeltaKm);
 
         // Update Digital Cluster Central Speed & Accel/Regen Arc
@@ -1578,28 +1769,14 @@
         dom.metricGradeKw.textContent = `${gradeAndInertiaKw >= 0 ? '+' : ''}${gradeAndInertiaKw.toFixed(1)} kW`;
         dom.metricGradeSub.textContent = `${state.gradePct >= 0 ? '+' : ''}${state.gradePct.toFixed(1)}% Incline · ${state.massKg}kg`;
 
-        dom.metricRotorTemp.textContent = `${Math.round(state.rotorTempC)} °C`;
-        dom.metricRotorTemp.className = glowFactor > 0.25
-          ? 'text-base sm:text-lg font-bold font-mono-tech text-orange-400 mt-0.5'
-          : 'text-base sm:text-lg font-bold font-mono-tech text-emerald-300 mt-0.5';
-        dom.metricRegenState.textContent = glowFactor > 0.25 ? '🔥 Thermal Dissipation' : 'Ceramic Nominal';
-
         const whPerKm = state.speedKmh > 5
           ? Math.round((totalPackKw * 1000) / state.speedKmh)
           : Math.round(151 + state.auxPowerKw * 12);
         dom.metricWhKm.textContent = `${whPerKm} Wh/km`;
         dom.metricHvacLoad.textContent = `HVAC: ${state.auxPowerKw.toFixed(1)} kW (${state.ambientTempC < 18 ? 'Heat' : 'Cool'})`;
 
-        // Update Audio Synth
-        if (state.audioEnabled && state.audioCtx) {
-          const now = state.audioCtx.currentTime;
-          state.motorOsc.frequency.setTargetAtTime(90 + state.speedKmh * 2.1, now, 0.05);
-          state.motorGain.gain.setTargetAtTime(state.speedKmh > 1 ? 0.03 : 0.005, now, 0.08);
-
-          const isRegen = state.accelMs2 < -0.2 && state.speedKmh > 5;
-          state.regenOsc.frequency.setTargetAtTime(110 + Math.abs(state.accelMs2) * 35, now, 0.05);
-          state.regenGain.gain.setTargetAtTime(isRegen ? 0.05 : 0.0, now, 0.08);
-        }
+        // Update EV Motor & Inverter Audio Engine
+        updateAudioEngine(dt);
       }
 
       // ==========================================
@@ -1634,6 +1811,12 @@
             ? 'cam-btn px-2.5 py-1 rounded text-xs font-semibold bg-sky-500/25 text-sky-200 border border-sky-400/40'
             : 'cam-btn px-2.5 py-1 rounded text-xs font-medium text-slate-400 hover:text-white';
         });
+      }
+
+      function cycleCameraPreset() {
+        const presets = ['chase', 'cockpit', 'hero', 'side'];
+        const nextIdx = (presets.indexOf(state.cameraPreset) + 1) % presets.length;
+        setCameraPreset(presets[nextIdx]);
       }
 
       function handleResize() {
@@ -1786,8 +1969,18 @@
         Object.assign(state, {
           speedKmh: 57, accelMs2: 0.0, gradePct: 2.4,
           ambientTempC: 19.5, auxPowerKw: 1.2, rotorTempC: 185,
-          socPct: 64.2, winterSeason: false, xrayActive: false
+          socPct: 64.2, winterSeason: false, xrayActive: false,
+          carX: 0.0, steerAngle: 0.0, hasUserDriven: false,
+          keys: { left: false, right: false, up: false, down: false, brake: false }
         });
+        carRoot.position.x = 0;
+        carRoot.rotation.y = 0;
+        chassisGroup.rotation.z = 0;
+        wheels.forEach((w) => {
+          if (w.isFront) w.knuckle.rotation.y = 0;
+        });
+        if (steeringGroup) steeringGroup.rotation.z = 0;
+        updateKeyIndicators();
         syncSeasonVisuals();
         syncXrayVisuals();
         updateSlidersAndLabels();
@@ -1820,7 +2013,213 @@
         state.orbitDist = Math.max(4.5, Math.min(15.5, state.orbitDist + e.deltaY * 0.004));
       }, { passive: false });
 
-      dom.btnAudioToggle.addEventListener('click', initOrToggleAudio);
+      dom.btnAudioToggle.addEventListener('click', toggleAudio);
+
+      // ==========================================
+      // KEYBOARD DRIVING CONTROLS & EVENT LISTENERS
+      // ==========================================
+      function updateKeyIndicators() {
+        if (!dom.keyUpIndicator) return;
+
+        // Up / W (Sky Blue)
+        if (state.keys.up) {
+          dom.keyUpIndicator.className = 'key-indicator w-7 h-7 rounded-lg bg-sky-500 text-white font-mono-tech font-black text-xs flex items-center justify-center border border-sky-300 shadow-lg shadow-sky-500/50 scale-105 transition-all select-none cursor-pointer';
+        } else {
+          dom.keyUpIndicator.className = 'key-indicator w-7 h-7 rounded-lg bg-slate-900/90 text-slate-300 font-mono-tech font-bold text-xs flex items-center justify-center border border-slate-700 hover:border-slate-500 transition-all select-none cursor-pointer';
+        }
+
+        // Down / S (Orange)
+        if (state.keys.down) {
+          dom.keyDownIndicator.className = 'key-indicator w-7 h-7 rounded-lg bg-orange-500 text-white font-mono-tech font-black text-xs flex items-center justify-center border border-orange-300 shadow-lg shadow-orange-500/50 scale-105 transition-all select-none cursor-pointer';
+        } else {
+          dom.keyDownIndicator.className = 'key-indicator w-7 h-7 rounded-lg bg-slate-900/90 text-slate-300 font-mono-tech font-bold text-xs flex items-center justify-center border border-slate-700 hover:border-slate-500 transition-all select-none cursor-pointer';
+        }
+
+        // Left / A (Emerald)
+        if (state.keys.left) {
+          dom.keyLeftIndicator.className = 'key-indicator w-7 h-7 rounded-lg bg-emerald-500 text-white font-mono-tech font-black text-xs flex items-center justify-center border border-emerald-300 shadow-lg shadow-emerald-500/50 scale-105 transition-all select-none cursor-pointer';
+        } else {
+          dom.keyLeftIndicator.className = 'key-indicator w-7 h-7 rounded-lg bg-slate-900/90 text-slate-300 font-mono-tech font-bold text-xs flex items-center justify-center border border-slate-700 hover:border-slate-500 transition-all select-none cursor-pointer';
+        }
+
+        // Right / D (Emerald)
+        if (state.keys.right) {
+          dom.keyRightIndicator.className = 'key-indicator w-7 h-7 rounded-lg bg-emerald-500 text-white font-mono-tech font-black text-xs flex items-center justify-center border border-emerald-300 shadow-lg shadow-emerald-500/50 scale-105 transition-all select-none cursor-pointer';
+        } else {
+          dom.keyRightIndicator.className = 'key-indicator w-7 h-7 rounded-lg bg-slate-900/90 text-slate-300 font-mono-tech font-bold text-xs flex items-center justify-center border border-slate-700 hover:border-slate-500 transition-all select-none cursor-pointer';
+        }
+
+        // Space / Brake (Amber)
+        if (dom.keySpaceIndicator) {
+          if (state.keys.brake) {
+            dom.keySpaceIndicator.className = 'px-1.5 py-0.5 rounded bg-amber-500 text-slate-950 font-mono-tech font-bold text-[9px] border border-amber-300 shadow-md shadow-amber-500/50 transition-all select-none cursor-pointer';
+          } else {
+            dom.keySpaceIndicator.className = 'px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono-tech font-medium text-[9px] border border-slate-700 select-none cursor-pointer';
+          }
+        }
+
+        // Status badge
+        if (dom.drivingStatusBadge) {
+          const isDriving = state.keys.up || state.keys.down || state.keys.left || state.keys.right || state.keys.brake;
+          if (isDriving) {
+            dom.drivingStatusBadge.textContent = 'DRIVING ACTIVE';
+            dom.drivingStatusBadge.className = 'text-[10px] font-mono-tech font-bold uppercase text-emerald-300 tracking-wide';
+          } else {
+            dom.drivingStatusBadge.textContent = 'WASD / ARROWS READY';
+            dom.drivingStatusBadge.className = 'text-[10px] font-mono-tech font-bold uppercase text-sky-200 tracking-wide';
+          }
+        }
+      }
+
+      function setKeyState(key, isPressed) {
+        let changed = false;
+        switch (key) {
+          case 'ArrowUp':
+          case 'KeyW':
+          case 'w':
+          case 'W':
+            if (state.keys.up !== isPressed) { state.keys.up = isPressed; changed = true; }
+            break;
+          case 'ArrowDown':
+          case 'KeyS':
+          case 's':
+          case 'S':
+            if (state.keys.down !== isPressed) { state.keys.down = isPressed; changed = true; }
+            break;
+          case 'ArrowLeft':
+          case 'KeyA':
+          case 'a':
+          case 'A':
+            if (state.keys.left !== isPressed) { state.keys.left = isPressed; changed = true; }
+            break;
+          case 'ArrowRight':
+          case 'KeyD':
+          case 'd':
+          case 'D':
+            if (state.keys.right !== isPressed) { state.keys.right = isPressed; changed = true; }
+            break;
+          case ' ':
+          case 'Space':
+            if (state.keys.brake !== isPressed) { state.keys.brake = isPressed; changed = true; }
+            break;
+        }
+        if (changed) {
+          updateKeyIndicators();
+        }
+      }
+
+      function handleGlobalKeyDown(e) {
+        // Ignore typing in input fields
+        if (e.target && (e.target.tagName === 'INPUT' && e.target.type === 'text' || e.target.tagName === 'TEXTAREA')) {
+          return;
+        }
+
+        const driveKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyW', 'KeyS', 'KeyA', 'KeyD', 'w', 'W', 's', 'S', 'a', 'A', 'd', 'D', ' ', 'Space'];
+        if (driveKeys.includes(e.key) || driveKeys.includes(e.code)) {
+          e.preventDefault();
+        }
+
+        if (e.key === 'c' || e.key === 'C') {
+          cycleCameraPreset();
+          return;
+        }
+        if (e.key === 'm' || e.key === 'M') {
+          toggleAudio();
+          return;
+        }
+        if (e.key === 'x' || e.key === 'X') {
+          state.xrayActive = !state.xrayActive;
+          syncXrayVisuals();
+          return;
+        }
+        if (e.key === 'r' || e.key === 'R') {
+          state.carX = 0;
+          state.steerAngle = 0;
+          return;
+        }
+
+        resumeAudioIfNeeded();
+        setKeyState(e.code || e.key, true);
+      }
+
+      function handleGlobalKeyUp(e) {
+        setKeyState(e.code || e.key, false);
+      }
+
+      window.addEventListener('keydown', handleGlobalKeyDown);
+      window.addEventListener('keyup', handleGlobalKeyUp);
+
+      // Listen for message events from parent Next.js iframe wrapper
+      window.addEventListener('message', (e) => {
+        if (!e.data || e.data.type !== 'SIMULATOR_KEY') return;
+        if (e.data.event === 'keydown') {
+          if (e.data.key === 'c' || e.data.key === 'C') {
+            cycleCameraPreset();
+            return;
+          }
+          if (e.data.key === 'm' || e.data.key === 'M') {
+            toggleAudio();
+            return;
+          }
+          if (e.data.key === 'x' || e.data.key === 'X') {
+            state.xrayActive = !state.xrayActive;
+            syncXrayVisuals();
+            return;
+          }
+          if (e.data.key === 'r' || e.data.key === 'R') {
+            state.carX = 0;
+            state.steerAngle = 0;
+            return;
+          }
+          resumeAudioIfNeeded();
+          setKeyState(e.data.code || e.data.key, true);
+        } else if (e.data.event === 'keyup') {
+          setKeyState(e.data.code || e.data.key, false);
+        }
+      });
+
+      // Bind mouse/touch button controls for on-screen keypad
+      function bindIndicatorEvents(el, keyName) {
+        if (!el) return;
+        const press = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          resumeAudioIfNeeded();
+          state.keys[keyName] = true;
+          updateKeyIndicators();
+        };
+        const release = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          state.keys[keyName] = false;
+          updateKeyIndicators();
+        };
+        el.addEventListener('mousedown', press);
+        el.addEventListener('mouseup', release);
+        el.addEventListener('mouseleave', release);
+        el.addEventListener('touchstart', press, { passive: false });
+        el.addEventListener('touchend', release, { passive: false });
+      }
+
+      bindIndicatorEvents(dom.keyUpIndicator, 'up');
+      bindIndicatorEvents(dom.keyDownIndicator, 'down');
+      bindIndicatorEvents(dom.keyLeftIndicator, 'left');
+      bindIndicatorEvents(dom.keyRightIndicator, 'right');
+      bindIndicatorEvents(dom.keySpaceIndicator, 'brake');
+
+      if (dom.btnCenterCar) {
+        dom.btnCenterCar.addEventListener('click', () => {
+          state.carX = 0;
+          state.steerAngle = 0;
+        });
+      }
+
+      // Auto-focus window on canvas/viewport interaction
+      dom.canvas.tabIndex = 0;
+      dom.viewport.addEventListener('click', () => {
+        dom.canvas.focus();
+        window.focus();
+      });
 
       // ==========================================
       // 13. ANIMATION & RENDER LOOP (60 FPS)
@@ -1833,9 +2232,105 @@
         const dt = Math.min(0.05, (now - lastTime) / 1000);
         lastTime = now;
 
-        const vMs = state.speedKmh / 3.6;
+        // ----------------------------------------------------
+        // DRIVING & STEERING CONTROL SYSTEM (KEYBOARD WASD / ARROWS)
+        // ----------------------------------------------------
+        const isDrivingAccel = state.keys.up;
+        const isDrivingBrake = state.keys.down || state.keys.brake;
+        const isDrivingLeft = state.keys.left;
+        const isDrivingRight = state.keys.right;
 
-        // 1. Suspension Dynamics (Pitch on Accel/Braking & Mass Height Offset)
+        if (isDrivingAccel || isDrivingBrake || isDrivingLeft || isDrivingRight) {
+          state.hasUserDriven = true;
+        }
+
+        // 1. Acceleration / Throttle & Deceleration / Braking
+        if (isDrivingAccel) {
+          const targetAccel = 3.4;
+          state.accelMs2 += (targetAccel - state.accelMs2) * Math.min(1, dt * 7.5);
+          state.speedKmh = Math.min(240, state.speedKmh + (state.accelMs2 * 3.6) * dt);
+        } else if (isDrivingBrake) {
+          const targetDecel = state.keys.brake ? -5.8 : -3.8;
+          state.accelMs2 += (targetDecel - state.accelMs2) * Math.min(1, dt * 9.0);
+          state.speedKmh = Math.max(0, state.speedKmh + (state.accelMs2 * 3.6) * dt);
+        } else if (state.hasUserDriven) {
+          // Coasting when driver releases pedal
+          if (state.speedKmh > 0.5) {
+            const coastDecel = -0.25;
+            state.accelMs2 += (coastDecel - state.accelMs2) * Math.min(1, dt * 3.0);
+            state.speedKmh = Math.max(0, state.speedKmh + (state.accelMs2 * 3.6) * dt * 0.45);
+          } else {
+            state.speedKmh = 0;
+            state.accelMs2 += (0 - state.accelMs2) * Math.min(1, dt * 6.0);
+          }
+        }
+
+        // 2. Steering Dynamics (Left / Right with Caster Auto-Centering)
+        let targetSteer = 0.0;
+        if (isDrivingLeft && !isDrivingRight) {
+          targetSteer = -0.42; // ~24 deg left
+        } else if (isDrivingRight && !isDrivingLeft) {
+          targetSteer = 0.42;  // ~24 deg right
+        }
+        const steerSpeed = (isDrivingLeft || isDrivingRight) ? 7.5 : 10.0;
+        state.steerAngle += (targetSteer - state.steerAngle) * Math.min(1, dt * steerSpeed);
+
+        // 3. Lateral Car Movement across Highway Lanes
+        const vMs = state.speedKmh / 3.6;
+        const effectiveForwardSpeed = Math.max(state.speedKmh > 0 ? 10.0 : 0.0, vMs);
+        const lateralVelocity = Math.sin(state.steerAngle) * effectiveForwardSpeed * 1.35;
+        state.carX += lateralVelocity * dt;
+
+        // Bounded by road barriers at +/-5.15m (drivable limit +/-3.85m)
+        const roadLimit = 3.85;
+        if (state.carX > roadLimit) state.carX = roadLimit;
+        if (state.carX < -roadLimit) state.carX = -roadLimit;
+
+        // Apply car transform & kinematic roll / yaw
+        carRoot.position.x = state.carX;
+        carRoot.rotation.y = state.steerAngle * 0.20;
+        chassisGroup.rotation.z = -state.steerAngle * 0.08;
+
+        // 4. Steer Front Wheels Visually
+        wheels.forEach((w) => {
+          if (w.isFront) {
+            w.knuckle.rotation.y = state.steerAngle;
+          }
+        });
+
+        // 5. Turn Interior Cockpit Steering Wheel
+        if (steeringGroup) {
+          steeringGroup.rotation.z = -state.steerAngle * 3.5;
+        }
+
+        // 6. Dynamic Brake Taillight Glow
+        const isBraking = state.accelMs2 < -0.15 || isDrivingBrake;
+        taillightMat.color.setHex(isBraking ? 0xff0000 : 0x7f1d1d);
+
+        // 7. Update Sliders & Badges live when driving
+        if (isDrivingAccel || isDrivingBrake || state.hasUserDriven) {
+          if (dom.inputSpeed) {
+            dom.inputSpeed.value = Math.round(state.speedKmh);
+            dom.valSpeed.textContent = `${Math.round(state.speedKmh)} km/h`;
+          }
+          if (dom.inputAccel) {
+            dom.inputAccel.value = state.accelMs2.toFixed(1);
+            const sign = state.accelMs2 > 0 ? '+' : '';
+            dom.valAccel.textContent = `${sign}${state.accelMs2.toFixed(1)} m/s²`;
+            dom.valAccel.className = state.accelMs2 < -0.1
+              ? 'font-mono-tech font-bold text-orange-400'
+              : 'font-mono-tech font-bold text-emerald-300';
+          }
+          const isRegen = state.accelMs2 < -0.1 && state.speedKmh > 1;
+          if (dom.badgeRegenFlag) {
+            dom.badgeRegenFlag.textContent = isRegen ? 'REGEN_FLAG: 1' : 'REGEN_FLAG: 0';
+            dom.badgeRegenFlag.className = isRegen
+              ? 'text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-orange-500/25 border border-orange-400/50 text-orange-300 font-bold'
+              : 'text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-400 font-medium';
+          }
+        }
+
+        // 8. Suspension Dynamics (Pitch on Accel/Braking & Mass Height Offset)
         const targetPitch = state.accelMs2 * 0.0085;
         const rideHeightOffset = -((state.massKg - 2100) / 900) * 0.04;
         chassisGroup.rotation.x += (targetPitch - chassisGroup.rotation.x) * 0.15;
@@ -1844,13 +2339,13 @@
         // Tilt highway deck for Grade %
         worldGroup.rotation.x = Math.atan(state.gradePct / 100) * 0.45;
 
-        // 2. Spin Wheels at exact 60fps proportional to speed_kmh
+        // 9. Spin Wheels at exact 60fps proportional to speed_kmh
         const omega = vMs / state.wheelRadiusM;
         wheels.forEach((w) => {
           w.spin.rotation.x -= omega * dt;
         });
 
-        // 3. Scroll Highway Asphalt & Roadside Props smoothly
+        // 10. Scroll Highway Asphalt & Roadside Props smoothly
         highwayTex.offset.y += vMs * dt * (14 / 180);
         summerVergeTex.offset.y += vMs * dt * (24 / 180);
         winterVergeTex.offset.y += vMs * dt * (24 / 180);
@@ -1862,7 +2357,7 @@
           }
         });
 
-        // 4. Animate Aero Streamline Tracer Particles
+        // 11. Animate Aero Streamline Tracer Particles
         if (state.aeroActive) {
           const flowSpeed = 0.25 + (state.speedKmh / 240) * 2.2;
           aeroStreams.forEach((st) => {
@@ -1872,7 +2367,7 @@
           });
         }
 
-        // 5. Animate Cabin HVAC Particles (Cyan Cooling vs Orange Heating)
+        // 12. Animate Cabin HVAC Particles (Cyan Cooling vs Orange Heating)
         if (state.hvacActive) {
           const isCooling = state.ambientTempC >= 20;
           hvacPartMat.color.setHex(isCooling ? 0x38bdf8 : 0xf97316);
@@ -1883,21 +2378,24 @@
           });
         }
 
-        // 6. Update Physics & RangeIQ Synthesis Engine
+        // 13. Update Physics & RangeIQ Synthesis Engine
         computePhysicsAndUpdateHUD(dt);
 
-        // 7. Smooth Camera Positioning: Driver Cockpit (POV) vs Exterior Chase
+        // 14. Smooth Camera Positioning: Driver Cockpit (POV) vs Exterior Chase
         if (state.cameraPreset === 'cockpit') {
-          // Driver's eye view inside cabin: looking forward through the windshield over the dash & steering wheel
-          camera.position.set(-0.38, 1.14 + rideHeightOffset, 0.12);
-          camera.lookAt(-0.38, 1.02 + rideHeightOffset, -18.0);
+          // Driver's eye view inside cabin: tracking carX
+          const eyeX = state.carX - 0.38;
+          camera.position.set(eyeX, 1.14 + rideHeightOffset, 0.12);
+          const lookAheadX = eyeX + Math.sin(state.steerAngle) * 3.0;
+          camera.lookAt(lookAheadX, 1.02 + rideHeightOffset, -18.0);
         } else {
-          // Exterior Orbit / Chase Camera
-          const camX = state.orbitDist * Math.sin(state.orbitTheta) * Math.cos(state.orbitPhi);
+          // Exterior Orbit / Chase Camera (centers on carX)
+          const trackX = state.carX * 0.75;
+          const camX = trackX + state.orbitDist * Math.sin(state.orbitTheta) * Math.cos(state.orbitPhi);
           const camY = 0.75 + state.orbitDist * Math.sin(state.orbitPhi);
           const camZ = state.orbitDist * Math.cos(state.orbitTheta) * Math.cos(state.orbitPhi);
           camera.position.set(camX, camY, camZ);
-          camera.lookAt(0, 0.72, 0);
+          camera.lookAt(trackX, 0.72, 0);
         }
 
         renderer.render(scene, camera);
@@ -1911,7 +2409,21 @@
         syncSeasonVisuals();
         syncXrayVisuals();
         updateSlidersAndLabels();
+        updateKeyIndicators();
+        updateAudioUI();
         setCameraPreset('chase');
+
+        // Auto-resume audio on first user gesture (satisfying browser autoplay policy)
+        const resumeOnFirstGesture = () => {
+          resumeAudioIfNeeded();
+          window.removeEventListener('click', resumeOnFirstGesture);
+          window.removeEventListener('keydown', resumeOnFirstGesture);
+          window.removeEventListener('touchstart', resumeOnFirstGesture);
+        };
+        window.addEventListener('click', resumeOnFirstGesture, { passive: true });
+        window.addEventListener('keydown', resumeOnFirstGesture, { passive: true });
+        window.addEventListener('touchstart', resumeOnFirstGesture, { passive: true });
+
         if (animFrameId) cancelAnimationFrame(animFrameId);
         lastTime = performance.now();
         animFrameId = requestAnimationFrame(animate);

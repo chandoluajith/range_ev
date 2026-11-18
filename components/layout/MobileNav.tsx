@@ -3,19 +3,16 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gauge, Radio, Zap, Compass, Layers, Settings } from "lucide-react";
+import { Compass, Layers, Car } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function MobileNav() {
   const pathname = usePathname();
 
   const navLinks = [
-    { label: "Overview", href: "/", icon: Gauge },
-    { label: "Live", href: "/live", icon: Radio },
-    { label: "Energy", href: "/energy", icon: Zap },
-    { label: "Range", href: "/range", icon: Compass },
-    { label: "Trips", href: "/trips", icon: Layers },
-    { label: "Settings", href: "/settings", icon: Settings },
+    { label: "Range", href: "/range", icon: Compass, isHighlight: true },
+    { label: "3D Twin", href: "/simulator3d.html", icon: Car, isHighlight: false },
+    { label: "Trips", href: "/trips", icon: Layers, isHighlight: false },
   ];
 
   return (
@@ -28,10 +25,17 @@ export function MobileNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex flex-col items-center gap-1 px-2.5 py-1 rounded-xl transition-all",
-              isActive ? "text-sky-400 font-medium" : "text-slate-400 hover:text-slate-200"
+              "flex flex-col items-center gap-1 px-2.5 py-1 rounded-xl transition-all relative",
+              isActive
+                ? "text-sky-400 font-medium"
+                : item.isHighlight
+                ? "text-sky-300 font-semibold bg-sky-500/10 border border-sky-400/30"
+                : "text-slate-400 hover:text-slate-200"
             )}
           >
+            {item.isHighlight && !isActive && (
+              <span className="absolute -top-1 right-1 w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8] animate-pulse" />
+            )}
             <Icon className="w-4 h-4" />
             <span className="text-[10px] font-mono tracking-tight">{item.label}</span>
           </Link>

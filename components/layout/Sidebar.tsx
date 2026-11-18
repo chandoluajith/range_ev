@@ -97,6 +97,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         <nav className="flex flex-col gap-1 px-3 py-3 font-mono text-[13px]">
           {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href;
+            const isHighlighted = (item as { highlight?: boolean }).highlight;
             return (
               <Link
                 key={item.href}
@@ -105,21 +106,38 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 className={cn(
                   "flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-150 group",
                   isActive
-                    ? "bg-sky-500/10 text-white font-medium border border-sky-400/25 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)]"
+                    ? isHighlighted
+                      ? "bg-sky-500/20 text-white font-semibold border-2 border-sky-400/50 shadow-[0_0_16px_rgba(56,189,248,0.3),inset_0_1px_0_0_rgba(255,255,255,0.12)]"
+                      : "bg-sky-500/10 text-white font-medium border border-sky-400/25 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)]"
+                    : isHighlighted
+                    ? "text-sky-300 bg-sky-500/10 hover:bg-sky-500/15 border border-sky-400/30 hover:border-sky-400/50 shadow-[0_0_12px_rgba(56,189,248,0.12)]"
                     : "text-slate-400 hover:text-white hover:bg-white/[0.03] border border-transparent"
                 )}
               >
                 <span
                   className={cn(
                     "transition-colors",
-                    isActive ? "text-sky-400" : "text-slate-400 group-hover:text-slate-200"
+                    isActive
+                      ? "text-sky-400"
+                      : isHighlighted
+                      ? "text-sky-400"
+                      : "text-slate-400 group-hover:text-slate-200"
                   )}
                 >
                   {getIcon(item.icon)}
                 </span>
-                <span className="font-sans font-medium text-[13px]">{item.label}</span>
+                <span className={cn("font-sans text-[13px]", isHighlighted ? "font-semibold" : "font-medium")}>
+                  {item.label}
+                </span>
                 {item.badge && (
-                  <span className="ml-auto text-[9px] px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 border border-sky-400/20 font-mono">
+                  <span
+                    className={cn(
+                      "ml-auto text-[9px] px-1.5 py-0.5 rounded font-mono font-bold tracking-wider",
+                      isHighlighted
+                        ? "bg-sky-400 text-slate-950 shadow-[0_0_10px_rgba(56,189,248,0.6)]"
+                        : "bg-sky-500/10 text-sky-400 border border-sky-400/20"
+                    )}
+                  >
                     {item.badge}
                   </span>
                 )}
@@ -132,38 +150,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         </nav>
       </div>
 
-      {/* Bottom Telemetry Sync State & Operator Profile */}
-      <div className="flex flex-col gap-2.5 p-3.5 m-3 rounded-2xl bg-gradient-to-b from-white/[0.03] to-white/[0.01] border border-white/[0.06]">
-        <div className="p-2.5 rounded-xl bg-black/40 border border-white/[0.04] flex flex-col gap-1.5">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] text-slate-400 font-mono uppercase tracking-wider">
-              CAN BUS SYNC
-            </span>
-            <div className="flex items-center gap-1.5">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
-              </span>
-              <span className="text-[10px] text-emerald-400 font-mono font-medium">50ms</span>
-            </div>
-          </div>
-          <div className="text-[12px] text-white font-medium tracking-tight">
-            Taycan GTS Sport Turismo
-          </div>
-          <div className="text-[10px] text-slate-400 font-mono tracking-wider truncate">
-            VIN WP0AB2Y15PSA4921
-          </div>
-        </div>
-
-        <div className="px-1 flex items-center justify-between text-[10px] font-mono">
-          <span className="text-slate-400 truncate">Highway_Dyn_v4</span>
-          <span className="text-emerald-400 font-medium">RT-SYNCED</span>
-        </div>
-
-        <div className="h-px w-full bg-white/[0.05]" />
-
-        {/* Profile Control & Theme Switcher */}
-        <div className="flex items-center justify-between pt-0.5">
+      {/* Bottom Operator Profile & Theme Switcher */}
+      <div className="p-3.5 m-3 rounded-2xl bg-gradient-to-b from-white/[0.03] to-white/[0.01] border border-white/[0.06]">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-sky-300 text-[11px] font-mono font-semibold">
               AV

@@ -5,15 +5,9 @@ export const APP_SUBTITLE = "Physics-Informed Personalized Energy Consumption & 
 export const APP_VERSION = "v2.4.8 Kernel · 100Hz RT";
 
 export const NAV_ITEMS = [
-  { label: "Overview", href: "/", icon: "Gauge", badge: null },
-  { label: "3D Digital Twin", href: "/simulator", icon: "Car", badge: "3D" },
-  { label: "Live Telemetry", href: "/live", icon: "Radio", badge: "100Hz" },
-  { label: "Energy & Powertrain", href: "/energy", icon: "Zap", badge: null },
-  { label: "Predictive Range", href: "/range", icon: "Compass", badge: "PINN" },
-  { label: "Kinematic Behavior", href: "/driving", icon: "Activity", badge: null },
-  { label: "Model Performance", href: "/model", icon: "Cpu", badge: "R² 0.93" },
-  { label: "Trip History", href: "/trips", icon: "Layers", badge: null },
-  { label: "Settings", href: "/settings", icon: "Settings", badge: null },
+  { label: "Range Estimation", href: "/range", icon: "Compass", badge: "CORE", highlight: true },
+  { label: "3D Digital Twin", href: "/simulator3d.html", icon: "Car", badge: "3D", highlight: false },
+  { label: "Trip History", href: "/trips", icon: "Layers", badge: null, highlight: false },
 ] as const;
 
 export const DEFAULT_VEHICLES: VehicleProfile[] = [

@@ -25,17 +25,17 @@ export function RangeHero({
   const socOffset = circumference - (socPercent / 100) * (circumference * 0.75);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl glass-panel p-6 flex flex-col justify-between group h-full">
+    <div className="relative overflow-hidden rounded-2xl glass-panel-elevated border-2 border-sky-400/40 p-6 flex flex-col justify-between group h-full shadow-[0_0_35px_rgba(56,189,248,0.18)] ring-1 ring-sky-400/30">
       {/* Ambient Sapphire & Emerald Specular Highlights */}
-      <div className="absolute -top-24 -right-24 w-72 h-72 bg-sky-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-sky-500/15 transition-all duration-700" />
+      <div className="absolute -top-24 -right-24 w-72 h-72 bg-sky-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-sky-500/25 transition-all duration-700" />
       <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Meta Row */}
       <div className="relative z-10 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#10b981]" />
-          <span className="text-[10px] uppercase tracking-widest font-mono text-slate-400 font-medium">
-            KINEMATIC-ML STATE
+          <span className="text-[10px] uppercase tracking-wider font-mono text-sky-300 font-semibold bg-sky-500/20 border border-sky-400/40 px-2.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.25)] flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8] animate-pulse" />
+            RANGE ESTIMATION · CORE
           </span>
         </div>
 
@@ -48,18 +48,19 @@ export function RangeHero({
       {/* Center Scalar & Semi-Circular Radial SVG SOC Gauge */}
       <div className="relative z-10 grid grid-cols-1 sm:grid-cols-12 gap-4 items-center my-4">
         <div className="sm:col-span-7 flex flex-col">
-          <span className="text-[11px] text-slate-400 uppercase tracking-widest font-mono font-medium">
+          <span className="text-[11px] text-sky-300 uppercase tracking-widest font-mono font-semibold flex items-center gap-1.5">
+            <Compass className="w-3.5 h-3.5 text-sky-400" />
             Estimated Remaining Range
           </span>
           <div className="flex items-baseline gap-2 my-1">
-            <span className="text-[56px] sm:text-[64px] leading-none text-white tracking-tighter font-semibold font-sans drop-shadow-sm tabular-nums">
+            <span className="text-[56px] sm:text-[64px] leading-none text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-100 to-sky-300 tracking-tighter font-bold font-sans drop-shadow-[0_4px_16px_rgba(56,189,248,0.4)] tabular-nums">
               {prediction.personalizedRange}
             </span>
-            <span className="text-[18px] text-slate-400 font-mono font-normal">km</span>
+            <span className="text-[20px] text-sky-400 font-mono font-semibold">km</span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 text-slate-400 text-[12px] mt-2 font-sans">
-            <span className="text-[10px] text-sky-400 font-mono bg-sky-500/10 border border-sky-400/25 px-2 py-0.5 rounded font-medium">
+            <span className="text-[10px] text-sky-300 font-mono bg-sky-500/15 border border-sky-400/35 px-2 py-0.5 rounded font-semibold shadow-[0_0_8px_rgba(56,189,248,0.2)]">
               {prediction.confidencePercent}% CI
             </span>
             <span className="text-slate-300 font-mono text-[11px]">

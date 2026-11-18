@@ -88,21 +88,25 @@ export function RangeIntelligence({ prediction }: RangeIntelligenceProps) {
           </span>
         </div>
 
-        {/* Step 3: Personalized Estimate */}
-        <div className="flex items-center gap-3.5 p-3 rounded-xl bg-sky-950/25 border border-sky-400/30 shadow-[0_0_20px_rgba(56,189,248,0.1)]">
-          <div className="w-7 h-7 rounded-lg bg-sky-400 text-slate-950 flex items-center justify-center font-mono font-bold text-[11px] shadow-[0_0_8px_rgba(56,189,248,0.4)]">
+        {/* Step 3: Personalized Range Estimation (Highlighted Output) */}
+        <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-sky-950/40 border-2 border-sky-400/60 shadow-[0_0_25px_rgba(56,189,248,0.25)] relative overflow-hidden ring-1 ring-sky-400/30">
+          <div className="absolute top-0 right-0 px-2 py-0.5 bg-sky-400 text-slate-950 font-mono text-[9px] font-extrabold rounded-bl uppercase tracking-wider shadow-sm">
+            Core Range Estimation
+          </div>
+          <div className="w-8 h-8 rounded-lg bg-sky-400 text-slate-950 flex items-center justify-center font-mono font-bold text-[12px] shadow-[0_0_12px_rgba(56,189,248,0.6)] shrink-0">
             03
           </div>
-          <div className="flex flex-col flex-1">
+          <div className="flex flex-col flex-1 pr-16 sm:pr-0">
             <div className="flex items-center justify-between">
-              <span className="text-[13px] font-semibold text-white font-sans">
-                Personalized Estimate
+              <span className="text-[14px] font-bold text-white font-sans flex items-center gap-1.5">
+                Personalized Range Estimation
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
               </span>
-              <span className="text-[16px] font-mono text-sky-300 font-bold tabular-nums">
+              <span className="text-[17px] font-mono text-sky-300 font-extrabold tabular-nums drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
                 {prediction.personalizedRange} km
               </span>
             </div>
-            <span className="text-[11px] text-slate-400 font-sans">
+            <span className="text-[11px] text-slate-300 font-sans mt-0.5">
               Real-time driver footprint weighted with confidence interval ±{prediction.confidence} km (95% CI)
             </span>
           </div>
